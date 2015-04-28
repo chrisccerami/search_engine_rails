@@ -6,5 +6,6 @@ require File.expand_path('../config/application', __FILE__)
 Rails.application.load_tasks
 
 task crawl: :environment do
-  Crawler.crawl
+  crawler = Crawler.new
+  crawler.crawl
 end

@@ -1,7 +1,7 @@
 require "open-uri"
 
 class Crawler
-  def self.crawl
+  def crawl
     Link.stale.each do |link|
       begin
         html = Nokogiri::HTML(open(link.url))
@@ -14,7 +14,7 @@ class Crawler
     end
   end
 
-  def self.collect_links(html, url)
+  def collect_links(html, url)
     hrefs = html.css('a')
     hrefs.each do |href|
       begin
@@ -27,6 +27,7 @@ class Crawler
           begin
             new_link = Link.find_or_create_by(url: url)
             new_link.update(html: html)
+
             puts new_link.url
           rescue
             puts "#{new_link.errors}"
@@ -36,7 +37,7 @@ class Crawler
     end
   end
 
-  def self.format_url(href, uri)
+  def format_url(href, uri)
     url = URI.join(URI.escape(href))
     if !url.scheme.nil? && url.scheme.starts_with("http")
       return url
