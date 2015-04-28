@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150420231345) do
+ActiveRecord::Schema.define(version: 20150428222836) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,5 +25,14 @@ ActiveRecord::Schema.define(version: 20150420231345) do
   end
 
   add_index "links", ["url"], name: "index_links_on_url", using: :btree
+
+  create_table "reverse_indices", force: :cascade do |t|
+    t.string   "word"
+    t.integer  "link_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "reverse_indices", ["word"], name: "index_reverse_indices_on_word", using: :btree
 
 end
